@@ -1,20 +1,19 @@
+const database = require('./database');
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
-const mongoose = require('mongoose');
-const uri = 'mongodb://victor:hola@localhost:27017/educativaExpress?authSource=admin';
 
-mongoose.connect(uri)
-.then(db => console.log('db connection succesfully'))
-.catch(err => console.log(error));
+database.initMongo();
 
 //Settings
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 3000);
 
 
 //Middlewares 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cors());
 
 //Routes
 app.use('/api', require('./routes/apis'));
