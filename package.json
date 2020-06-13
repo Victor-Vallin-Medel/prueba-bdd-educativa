@@ -1,17 +1,17 @@
 {
-  "name": "proyectopruebamongovueexpress",
+  "name": "mongo-express",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server with mongodb and express, use nodemon.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "start": "nodemon src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mongoose": "^5.9.15",
+    "mongoose": "^5.9.18",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.4"
   }
 }
