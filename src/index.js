@@ -9,7 +9,6 @@ database.initMongo();
 //Settings
 app.set('port', process.env.PORT || 3000);
 
-
 //Middlewares 
 app.use(morgan('dev'));
 app.use(express.json());
@@ -22,10 +21,6 @@ app.use('/api/Curso', require('./routes/curso.routes'));
 app.use('/api/Usuario', require('./routes/usuario.routes'));
 app.use('/api/UsuarioContenido', require('./routes/usuario_contenido.routes'));
 app.use('/api/Conversacion', require('./routes/conversacion.routes'));
-
-//Static files
-app.use(express.static(__dirname + '/public'));
-
 
 //server is listening
 app.listen(app.get('port'), () => {
