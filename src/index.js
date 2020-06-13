@@ -16,7 +16,12 @@ app.use(express.json());
 app.use(cors());
 
 //Routes
-app.use('/api', require('./routes/apis'));
+app.use('/api/subCategoria', require('./routes/subcategoria.routes'));
+app.use('/api/Categoria', require('./routes/categoria.routes'));
+app.use('/api/Curso', require('./routes/curso.routes'));
+app.use('/api/Usuario', require('./routes/usuario.routes'));
+app.use('/api/UsuarioContenido', require('./routes/usuario_contenido.routes'));
+app.use('/api/Conversacion', require('./routes/conversacion.routes'));
 
 //Static files
 app.use(express.static(__dirname + '/public'));
