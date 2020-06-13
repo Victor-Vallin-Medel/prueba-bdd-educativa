@@ -44,4 +44,4 @@ La BD se llama educativa **educativaExpress**. Se puede acceder desde consola co
 ```
 Para utilizar el servicio con la aplicación MongoDB Compass, se requiere realizar una nueva conexión con el valor **mongodb://localhost:27017**.
 
-Si se quiere utilizar [MongoUI](http://localhost:1234), en **_Coneccion string_** uitilice **mongodb://mongo/educativaExpress**.
+Si se quiere utilizar [MongoUI](http://localhost:1234), en **_Conecction string_** uitilice **mongodb://mongo/educativaExpress**.
