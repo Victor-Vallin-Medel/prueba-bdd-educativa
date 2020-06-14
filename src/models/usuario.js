@@ -16,4 +16,13 @@ const Usuario = new Schema({
     }]
 });
 
+// Eliminación de password al retornar el objeto por petición
+Usuario.methods.toJSON = function() {
+    let user = this;
+    let userObject = user.toObject();
+    delete userObject.passwd;
+
+    return userObject;
+}
+
 module.exports = mongoose.model('Usuario', Usuario);
