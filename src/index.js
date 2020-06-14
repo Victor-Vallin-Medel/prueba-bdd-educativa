@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 
 //Routes
-app.use('/auth', require('./routes/auth.routes'));
+app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/subCategoria', require('./routes/subcategoria.routes'));
 app.use('/api/Categoria', require('./routes/categoria.routes'));
 app.use('/api/Curso', require('./routes/curso.routes'));
