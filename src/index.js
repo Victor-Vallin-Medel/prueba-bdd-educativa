@@ -20,7 +20,7 @@ app.use(cors());
 
 //Routes
 app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/subCategoria', auth require('./routes/subcategoria.routes'));
+app.use('/api/subCategoria', auth, require('./routes/subcategoria.routes'));
 app.use('/api/Categoria', auth, require('./routes/categoria.routes'));
 app.use('/api/Curso', auth, require('./routes/curso.routes'));
 app.use('/api/Usuario', auth, require('./routes/usuario.routes'));
