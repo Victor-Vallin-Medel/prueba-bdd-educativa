@@ -9,7 +9,7 @@ const Usuario = require('../models/usuario');
 router.post('/login', (req, res) => {
     let body = req.body;
 
-    Usuario.findOne({ email: body.email }, ( erro, user) => {
+    Usuario.findOne({ email: body.email }, '-cursos', ( erro, user) => {
         // Error
         if (erro) return res.status(500).json({ ok: false, err: erro });
         
@@ -19,11 +19,9 @@ router.post('/login', (req, res) => {
         // Constraseña incorrecta
         if (!bcrypt.compareSync(body.passwd, user.passwd)) return res.status(400).json({ ok: false, err: "Usuario o contraseña incorrectos" });
         
-        // Eliminación de propiedad cursos. No se toma en cuenta para la firma del jwt.
-        delete user.cursos;
         // Creación de jwt con objeto usuario, llave secreta y tiempo de caducidad.
         let token = jwt.sign({ usuario: user }, process.env.PRIVATE_KEY, { expiresIn: process.env.EXPIRATION });
-
+        
         res.json({ ok: true, usuario: user, jwt: token});
     });
 });
