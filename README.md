@@ -45,3 +45,6 @@ La BD se llama educativa **educativaExpress**. Se puede acceder desde consola co
 Para utilizar el servicio con la aplicación MongoDB Compass, se requiere realizar una nueva conexión con el valor **mongodb://localhost:27017**.
 
 Si se quiere utilizar [MongoUI](http://localhost:1234), en **_Conecction string_** uitilice **mongodb://mongo/educativaExpress**.
+
+## Programar/cambiar rutas en express
+Las rutas se dividieron por cada tipo de Schema definido en el servidor, cada grupo de rutas están protegidas sobre un JWT que se realiza al querer iniciar sesión desde la app de Vue, esto está totalmente funcional y solo se deben preocupar por programar las rutas, manejar y devolver lo solicitado.
