@@ -48,3 +48,10 @@ Si se quiere utilizar [MongoUI](http://localhost:1234), en **_Conecction string_
 
 ## Programar/cambiar rutas en express
 Las rutas se dividieron por cada tipo de Schema definido en el servidor, cada grupo de rutas están protegidas sobre un JWT que se realiza al querer iniciar sesión desde la app de Vue, esto está totalmente funcional y solo se deben preocupar por programar las rutas, manejar y devolver lo solicitado.
+
+#### Errores de petición
+Cuando se genere un error en las peticiones de express, hay que manejar un numero de error específico para que el manejo en la app Vue sea más sencillo, por el momento se tienen los siguientes errores:
+
+- **500**: Error interno del servidor.
+- **400**: Petición errónea, es decir, parámetros o cualquier otra cosa no encontrada en mongo.
+- **401**: JWT inválido, este tipo de error no se debe de utilizar.
