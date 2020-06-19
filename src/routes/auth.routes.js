@@ -9,7 +9,7 @@ const Usuario = require('../models/usuario');
 router.post('/login', (req, res) => {
     let body = req.body;
 
-    Usuario.findOne({ email: body.email }, '-cursos', ( erro, user) => {
+    Usuario.findOne({ email: body.email }, ( erro, user) => {
         // Error
         if (erro) return res.status(500).json({ ok: false, err: erro });
         
