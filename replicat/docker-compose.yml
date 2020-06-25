@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+    repl1:
+        container_name: "repl1"
+        image: "mongo"
+        command: "mongod --configsvr --replSet cfrepl --port 27017 --dbpath /data/db"
+        ports:
+            - "40001:27017"
+        volumes:
+            - "repl1:/data/db"
+
+    repl2:
+        container_name: "repl2"
+        image: "mongo"
+        command: "mongod --configsvr --replSet cfrepl --port 27017 --dbpath /data/db"
+        ports:
+            - "40002:27017"
+        volumes:
+            - "repl2:/data/db"
+
+    repl3:
+        container_name: "repl3"
+        image: "mongo"
+        command: "mongod --configsvr --replSet cfrepl --port 27017 --dbpath /data/db"
+        ports:
+            - "40003:27017"
+        volumes:
+            - "repl3:/data/db"
+
+volumes:
+    repl1: {}
+    repl2: {}
+    repl3: {}
