@@ -55,3 +55,82 @@ Cuando se genere un error en las peticiones de express, hay que manejar un numer
 - **500**: Error interno del servidor.
 - **400**: Petición errónea, es decir, parámetros o cualquier otra cosa no encontrada en mongo.
 - **401**: JWT inválido, este tipo de error no se debe de utilizar.
+
+
+## Replicat & Sharding
+
+##### Replicat Set
+Iniciar servidores para replicat set.
+```console
+docker-compse -f replicat/docker-compose.yml up -d
+```
+Ingresar a un servidor del replicat.
+```console
+mongo mongodb://localhost:40001
+```
+
+Crear la configuración del replicat set (poner la IP de su máquina).
+```js
+rs.initiate(
+  {
+    _id: "cfrepl",
+    configsvr: true,
+    members: [
+      { _id : 0, host : "192.168.100.16:40001" },
+      { _id : 1, host : "192.168.100.16:40002" },
+      { _id : 2, host : "192.168.100.16:40003" }
+    ]
+  }
+)
+```
+
+Comprobar estado.
+```js
+rs.status()
+```
+
+##### Sharding
+Inciar servidores para un shard
+```console
+docker-compose -f shard1/docker-compose.yaml up -d
+```
+
+Ingresar a un servidor del shard.
+```console
+mongo mongodb://localhost:50001
+```
+
+Crear la configuración del shard (poner la IP de su máquina).
+```js
+rs.initiate(
+  {
+    _id: "shard1rs",
+    members: [
+      { _id : 0, host : "192.168.100.16:50001" },
+      { _id : 1, host : "192.168.100.16:50002" },
+      { _id : 2, host : "192.168.100.16:50003" }
+    ]
+  }
+)
+```
+
+Comprobar estado.
+```js
+rs.status()
+```
+
+> Lo anterior hacerlo para los 2 restantes shards, respetando los puertos para cada host, empezando con el puerto :50004 hasta el :50009
+
+##### Mongos Router
+Inciar sevidor para backend.
+```console
+docker-compose up --build
+```
+
+Añadir los shards a mongos.
+```console
+mongos> sh.addShard("shard1rs/192.168.100.16:50001,192.168.100.16:50002,192.168.100.16:50003")
+mongos> sh.addShard("shard2rs/192.168.100.16:50004,192.168.100.16:50005,192.168.100.16:50006")
+mongos> sh.addShard("shard3rs/192.168.100.16:50007,192.168.100.16:50008,192.168.100.16:50009")
+mongos> sh.status()
+```
