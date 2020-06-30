@@ -69,13 +69,13 @@ router.put('/messages/:id', async (req, res) => {
         fechaEnviado: Date.now()
     }
 
-    await Conversacion.findByIdAndUpdate(req.params.id, { $push: { mensajes: message }})
+    await Conversacion.findByIdAndUpdate(req.params.id, { $push: { mensajes: message }}, { new: true})
         .exec((erro, chat) => {
             if (erro) res.status(500).json({ ok: false, err: erro });
 
             if (!chat) res.status(400).json({ ok: false, err: "Mensajes no enviado" });
 
-            res.json({ ok: true, res: chat });
+            res.json({ ok: true, message: chat.mensajes.pop() });
     });
 });
 
