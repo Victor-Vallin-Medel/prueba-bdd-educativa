@@ -49,13 +49,17 @@ router.get('/user/:id', async (req, res) =>{
     });
 });
 
-// router.get();
+// Get chat messages
+router.get('/messages/:id', async (req, res) => {
+    await Conversacion.findById(req.params.id, "mensajes" , (erro, chat) => {
+        if (erro) res.status(500).json({ ok: false, err: erro });
 
-router.put('/:id', async (req, res) => {
-    await Conversacion.findByIdAndUpdate(req.params.id, req.body);
-    res.json({
-        status: "200"
-    });
+        if (!chat) res.status(400).json({ ok: false, err: "Mensajes no encontrados" });
+
+        res.json({ ok: true, messages: chat.mensajes });
+    })
+});
+
 });
 
 router.delete('/:id', async (req, res) => {
