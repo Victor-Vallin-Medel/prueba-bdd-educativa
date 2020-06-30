@@ -60,6 +60,23 @@ router.get('/messages/:id', async (req, res) => {
     })
 });
 
+// Send message in existing chat
+router.put('/messages/:id', async (req, res) => {
+    const body = req.body;
+    let message = {
+        IdAutor: mongoose.Types.ObjectId(body.autor),
+        cuerpo: body.msg,
+        fechaEnviado: Date.now()
+    }
+
+    await Conversacion.findByIdAndUpdate(req.params.id, { $push: { mensajes: message }})
+        .exec((erro, chat) => {
+            if (erro) res.status(500).json({ ok: false, err: erro });
+
+            if (!chat) res.status(400).json({ ok: false, err: "Mensajes no enviado" });
+
+            res.json({ ok: true, res: chat });
+    });
 });
 
 router.delete('/:id', async (req, res) => {
