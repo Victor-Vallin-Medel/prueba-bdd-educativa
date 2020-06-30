@@ -41,7 +41,8 @@ router.get('/user/:id', async (req, res) =>{
 
     // Return chats with members docs (users), exclude messages
     await Conversacion.find({ miembros: { $in: [user] }}, "-mensajes", callback)
-        .populate('miembros').exec((erro, chats) => {
+        .populate({ path: 'miembros', select: '_id nombre perfil.username', match: { _id: { $ne: user }}})
+        .exec((erro, chats) => {
             if (erro || !chats) callback(erro, chats);
 
             res.json({ ok: true, chats: chats });
