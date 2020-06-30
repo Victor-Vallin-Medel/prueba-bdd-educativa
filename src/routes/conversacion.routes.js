@@ -1,4 +1,5 @@
 const express = require('express');
+const { Schema } = require('mongoose');
 const router =  express.Router();
 
 const Conversacion = require('../models/conversacion');
@@ -8,9 +9,9 @@ router.post('/init/:id',  async (req, res) =>{
     const transmitter = req.params.id;
 
     let message = new Conversacion({
-        miembros: [transmitter, body.receiver],
+        miembros: [ Schema.Types.ObjectId(transmitter), Schema.Types.ObjectId(body.receiver)],
         mensajes: [{
-            IdAutor: transmitter,
+            IdAutor: Schema.Types.ObjectId(transmitter),
             cuerpo: body.msg,
             fechEnviado: new Date()
         }]
