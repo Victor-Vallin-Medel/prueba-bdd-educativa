@@ -1,5 +1,5 @@
 const express = require('express');
-const { Schema } = require('mongoose');
+const mongoose = require('mongoose');
 const router =  express.Router();
 
 const Conversacion = require('../models/conversacion');
@@ -10,11 +10,11 @@ router.post('/init/:id',  async (req, res) =>{
     const transmitter = req.params.id;
 
     let message = new Conversacion({
-        miembros: [ Schema.Types.ObjectId(transmitter), Schema.Types.ObjectId(body.receiver)],
+        miembros: [ mongoose.Types.ObjectId(transmitter), mongoose.Types.ObjectId(body.receiver)],
         mensajes: [{
-            IdAutor: Schema.Types.ObjectId(transmitter),
+            IdAutor: mongoose.Types.ObjectId(transmitter),
             cuerpo: body.msg,
-            fechEnviado: new Date()
+            fechaEnviado: Date.now()
         }]
     });
     

@@ -8,7 +8,7 @@ const Conversacion = new Schema({
         {
         IdAutor: { type: Schema.Types.ObjectId, ref: 'Usuario' },
         cuerpo: String,
-        fechaEnviado: Date,
+        fechaEnviado: Number,
         }
     ]
 });
