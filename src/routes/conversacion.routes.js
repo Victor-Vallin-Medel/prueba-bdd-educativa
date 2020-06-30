@@ -4,6 +4,7 @@ const router =  express.Router();
 
 const Conversacion = require('../models/conversacion');
 
+// Create new chat
 router.post('/init/:id',  async (req, res) =>{
     const body = req.body;
     const transmitter = req.params.id;
@@ -26,9 +27,25 @@ router.post('/init/:id',  async (req, res) =>{
     });
 });
 
-router.get('/', async (req, res) =>{
-    const conversaciones = await Conversacion.find();
-    res.json(conversaciones);
+// Get user chats
+router.get('/user/:id', async (req, res) =>{
+    // User id to get chats
+    const user = req.params.id;
+
+    // Callback to manage errors
+    let callback = (erro, chats) => {
+        if (erro) res.status(500).json({ ok: false, err: erro });
+
+        if (!chats) res.status(400).json({ ok: false, err: "Chats no encontrados" });
+    };
+
+    // Return chats with members docs (users), exclude messages
+    await Conversacion.find({ miembros: { $in: [user] }}, "-mensajes", callback)
+        .populate('miembros').exec((erro, chats) => {
+            if (erro || !chats) callback(erro, chats);
+
+            res.json({ ok: true, chats: chats });
+    });
 });
 
 // router.get();
