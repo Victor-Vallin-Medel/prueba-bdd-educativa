@@ -15,10 +15,13 @@ router.get('/', async (req, res) =>{
     res.json(usuarios);
 });
 
-router.put('/:id', async (req, res) => {
-    await Usuario.findByIdAndUpdate(req.params.id, req.body);
-    res.json({
-        status: "200"
+router.patch('/:id', async (req, res) => {
+    await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true }, (erro, user) => {
+        if (erro) res.status(500).json({ ok: false, err: erro });
+
+        if (!user) res.status(400).json({ ok: false, err: "Usuario no encontrado" });
+
+        res.json({ ok: true, usuario: user })
     });
 });
 
