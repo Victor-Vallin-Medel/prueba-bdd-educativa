@@ -27,8 +27,8 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.get('/', async (req, res) =>{
-    const contenidos = await UsuarioContenido.find();
-    res.json(cursos);
+    const UsuarioContenidos = await UsuarioContenido.find();
+    res.json(UsuarioContenidos);
 });
 
 module.exports = router;
