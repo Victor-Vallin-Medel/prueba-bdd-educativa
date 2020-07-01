@@ -11,9 +11,19 @@ router.post('/',  async (req, res) =>{
     })
 });
 
-router.get('/', async (req, res) =>{
-    const usuarios = await Usuario.find();
-    res.json(usuarios);
+// Get users
+router.put('/all', async (req, res) => {
+    // Check if exist ids to not search
+    const uuids = (Array.isArray(req.body.uuids)) ? req.body.uuids : [];
+    
+    await Usuario.find({ _id: { $nin: uuids }}, "_id nombre perfil")
+        .exec((erro, users) => {
+            if (erro) res.status(500).json({ ok: false, err: erro });
+
+            if (!users) res.status(400).json({ ok: false, err: "Imposible obtener los usuarios en este momento" });
+
+            res.json({ ok: true, users: users });
+        });
 });
 
 // Update passwd
