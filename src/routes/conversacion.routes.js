@@ -87,11 +87,18 @@ router.put('/messages/:id', async (req, res) => {
     });
 });
 
-router.delete('/:id', async (req, res) => {
-    await Conversacion.findByIdAndDelete(req.params.id);
-    res.json({
-        status: "200"
-    });
+// Delete message
+router.delete('/chat/:_cid/message/:_mid', async (req, res) => {
+    const params = req.params;
+
+    await Conversacion.findByIdAndUpdate(params._cid, { $pull: { mensajes: { _id: params._mid }}})
+        .exec((erro, chat) => {
+            if (erro) res.status(500).json({ ok: false, err: erro });
+
+            if (!chat) res.status(400).json({ ok: false, err: "Mensajes no encontrados" });
+
+            res.json({ ok: true, _mid: params._mid });
+        });
 });
 
 module.exports = router;
