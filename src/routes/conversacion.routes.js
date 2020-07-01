@@ -5,7 +5,7 @@ const router =  express.Router();
 const Conversacion = require('../models/conversacion');
 
 // Create new chat
-router.post('/init/:id',  async (req, res) =>{
+router.post('/init/:id', (req, res) =>{
     const body = req.body;
     const transmitter = req.params.id;
 
@@ -17,13 +17,21 @@ router.post('/init/:id',  async (req, res) =>{
             fechaEnviado: Date.now()
         }]
     });
+
+    // Callback to manage errors
+    let callback = (erro, chat) => {
+        if (erro) res.status(500).json({ ok: false, err: erro });
+
+        if (!chat) res.status(400).json({ ok: false, err: "Chat no recuperado" });
+    };
     
-    await message.save((erro, chat) => {
-        // Error
-        if (erro) return res.status(500).json({ ok: false, err: erro });
-        
-        // Success
-        res.json({ ok: true, message: chat.mensajes.pop() });
+    message.save().then(chat => {
+        chat.populate({ path: 'miembros', select: '_id nombre perfil.username', match: { _id: { $ne: transmitter }}})
+            .execPopulate((erro, chat) => {
+                if (erro || !chat) callback(erro, chat);
+
+                res.json({ ok: true, chat: chat });
+            });
     });
 });
 
