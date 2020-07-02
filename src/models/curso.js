@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const Curso = new Schema({
     nombre: String,
     autor: String,
+    idAutor: String,
     idSubCategorias: [String],
     contenidos:[{
         titulo:String,
