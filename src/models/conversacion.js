@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const SubCateogria = new Schema({
-    miembros: [String],
+const Conversacion = new Schema({
+    miembros: [{ type: Schema.Types.ObjectId, ref: 'Usuario' }],
     mensajes: 
     [
         {
-        IdAutor: String,
+        IdAutor: { type: Schema.Types.ObjectId, ref: 'Usuario' },
         cuerpo: String,
-        fechaEnviado: Date,
+        fechaEnviado: Number,
         }
     ]
 });
 
-module.exports = mongoose.model('SubCateogria', SubCateogria);
+module.exports = mongoose.model('Conversacion', Conversacion);
